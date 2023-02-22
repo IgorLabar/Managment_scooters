@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Создать новый самокат{% endblock %}
+{% block content %}
+{% if request.user.is_staff %}
+<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary mx-2" type="submit">Добавить</button>
+    </form>
+</div>
+{% else %}
+<script>
+    // Если обычный пользователь захочет прейти в dashboard, то его выкинет из акканута и перенаправят на страницу входа
+    document.location.href = '/logout';
+</script>
+{% endif %}
+{% endblock %}

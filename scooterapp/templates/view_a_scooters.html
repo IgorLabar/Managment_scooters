@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Забронировать самокат{% endblock %}
+{% block content %}
+<div id="map" style="height: 900px; width: 1440px;">
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
+</div>
+<script>
+    function init() {
+        var map = new ymaps.Map('map', {
+            center: [45.05355, 39.022],
+            zoom: 11,
+            controls: ['geolocationControl']
+        }, {
+            searchControlProvider: 'yandex#search'
+        });
+
+        map.behaviors.enable(['drag', 'scrollZoom']);
+        var settings = {
+            "scooters": [
+                {% for place in places %}
+                {
+                    "id": '{{ place.serial_number }}',
+                    "lat": '{{ place.latitude }}',
+                    "long": '{{ place.longitude }}',
+                    "charge": '{{ place.charge }}',
+                    "status": '{{ place.active }}',
+                },
+                {% endfor %}
+    ],
+    }
+    $.each(settings.scooters, (key, value) => {
+        var pinType = 'islands#greenIcon';
+        var textHint = 'Свободен'
+        var stausScooter = 'https://cdn0.iconfinder.com/data/icons/transport-181/100/Scooter_transport_two-wheeled-256.png'
+        switch(value['status']) {
+            case 'Charge':
+                stausScooter = 'https://cdn4.iconfinder.com/data/icons/tabler-vol-5/24/scooter-electric-512.png'
+                textHint = 'Заряжается'
+                break
+            case 'Repair':
+                stausScooter = 'https://cdn0.iconfinder.com/data/icons/scootet/64/REPAIR-Wrench-scooter-transportation-excercise-256.png'
+                textHint = 'На ремонте'
+                break
+            case 'Is used':
+                stausScooter = 'https://cdn2.iconfinder.com/data/icons/electric-transport/100/electric_scooter_2-256.png'
+                textHint = 'В поездке'
+                break
+        }
+        map.geoObjects.add(new ymaps.Placemark([value['lat'], value['long']], {
+                hintContent: textHint,
+                balloonContentHeader: value['id'],
+                balloonContentBody: "Заряд: " + value['charge'],
+        },{
+            preset: pinType,
+            iconLayout: 'default#image',
+            iconImageHref: stausScooter,
+            iconImageSize: [40, 40],
+        }));
+      //console.log('point placed :' + value['lat'] + ', ' + value['long']);
+    })
+}
+    ymaps.ready(init);
+</script>
+{% endblock %}
