@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Редактировать самокат{% endblock %}
+{% block content %}
+{% if request.user.is_staff %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="form-group row" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
+                <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-right">{{ field.label }}{% if field.field.required %}<span class="required">*</span>{% endif %}</label>
+                <div class="col-md-6">
+                    {{ field }}
+                    {% if field.help_text %}
+                    <small id="{{ field.id_for_label }}-help" class="form-text text-muted">{{ field.help_text|safe }}</small>
+                    {% endif %}
+                </div>
+        </div>
+    {% endfor %}
+
+    <div class="col-md-6 offset-md-4">
+        <button class="btn btn-primary m-md-3">
+            Поменять
+        </button>
+    </div>
+</form>
+{% else %}
+<script>
+    // Если обычный пользователь захочет прейти в dashboard, то его выкинет из акканута и перенаправят на страницу входа
+    document.location.href = '/logout';
+</script>
+{% endif %}
+{% endblock %}

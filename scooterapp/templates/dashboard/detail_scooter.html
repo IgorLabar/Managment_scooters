@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Профль самоката | {{ scooters.id }}{% endblock title %}
+{% block content %}
+{% if request.user.is_staff %}
+<div class="container py-2">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <p class="text-muted mb-3">Всего поездок: {{ count_trip }}</p>
+          <p class="text-muted mb-3">Процент заряда: {{ scooters.charge }}</p>
+          <p class="text-muted mb-3">Статус: {{ scooters.active }}</p>
+          <p><a href="{% url 'booking' %}">Посмотреть на карте</a></p>
+          <p><a href="{% url 'update_scooter' scooters.id %}">Изменить</a></p>
+          <ul id="myUL">
+            <li><span class="caret">Поездки</span>
+              <ul class="nested">
+                {% for trip in trips %}
+                {% if trip.scooter.id == scooters.id %}
+                <li class="text-muted mb-3">{{ trip.date_of_trip }}</li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Номер самоката</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ scooters.serial_number }}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Процент заряда</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ scooters.charge }}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Статус</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{ scooters.active }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<script>
+    // Если обычный пользователь захочет прейти в dashboard, то его выкинет из акканута и перенаправят на страницу входа
+    document.location.href = '/logout';
+</script>
+{% endif %}
+{% endblock %}

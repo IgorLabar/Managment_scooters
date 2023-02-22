@@ -1,0 +1,21 @@
+<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        {% block content %}
+        <h1 class="h2">Статистика</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="dropdown">
+                <button class="btn btn-primary mx-2" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Фильтры
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{% url 'chart revenue by day' %}">Все данные</a></li>
+                    <li><a class="dropdown-item" href="{% url 'chart revenue by year' %}">Прибыль в год</a></li>
+                    <li><a class="dropdown-item" href="{% url 'chart revenue by user' %}">Приыбль по пользователям</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</div>

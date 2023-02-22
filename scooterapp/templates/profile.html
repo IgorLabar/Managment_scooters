@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Profile | {{ users.username }}{% endblock %}
+{% block content %}
+<div class="container py-2">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <form method="post" enctype="multipart/form-data">
+                        {% load thumbnail %}
+                        {% thumbnail users.img "960x339" crop="center" upscale=True as im %}
+                        <img src="{{ im.url }}" alt="avatar" class="rounded-circle img-fluid"
+                            style="height: 100px; width: 100px; border-radius: 50px;">
+                        {% endthumbnail %}
+                    </form>
+                    <h5 class="my-3">{{ users.username }}</h5>
+                    <p class="text-muted mb-3">Всего поездок: {{ count_trips }}</p>
+                    {% if request.user.is_staff %}
+                    {% else %}
+                    <div class="d-flex justify-content-center mb-2">
+                        <a href="{% url 'password_change' %}">
+                            <button type="button" class="btn btn-primary mx-2">Изменить пароль</button>
+                        </a>
+                        <a href="{% url 'update' users.id %}">
+                            <button type="button" class="btn btn-primary">Изменить картинку</button>
+                        </a>
+                        <a href="{% url 'view_scooter' %}">
+                            <button type="button" class="btn btn-primary ms-3">Посмотреть самокаты</button>
+                        </a>
+                    </div>
+                    <a href="{% url 'booking' %}">
+                        <button type="button" class="btn btn-primary mt-2">Забронировать самокат</button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Имя и фамилия</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ users.get_full_name }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Почта</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ users.email }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Город</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">{{ users.city }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

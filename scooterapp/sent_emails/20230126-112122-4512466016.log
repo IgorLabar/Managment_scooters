@@ -1,0 +1,24 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on example.com
+From: webmaster@localhost
+To: s@gmail.com
+Date: Thu, 26 Jan 2023 11:21:22 -0000
+Message-ID: <167473208224.988.457208817541517919@MacBook-Air-Igor.local>
+
+
+You're receiving this email because you requested a password reset for your user account at example.com.
+
+Please go to the following page and choose a new password:
+
+http://example.com/auth/reset/MQ/bimsvm-672479b3812ceb48708cd02425829909/
+
+Your username, in case you’ve forgotten: s22
+
+Thanks for using our site!
+
+The example.com team
+
+
+-------------------------------------------------------------------------------

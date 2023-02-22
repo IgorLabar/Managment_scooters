@@ -1,0 +1,34 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Результат поиска{% endblock %}
+{% block content %}
+{% if request.user.is_staff %}
+<div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <h1>Search Results</h1>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">RIDER</th>
+          <th scope="col">CITY</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {% for trip in object_list %}
+          <td>{{trip.rider.id}}</td>
+          <td><a href="{% url 'profile' trip.rider.id %}">{{trip.rider.id}}</a></td>
+          <td>{{trip.rider.city}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<script>
+    // Если обычный пользователь захочет прейти в dashboard, то его выкинет из акканута и перенаправят на страницу входа
+    document.location.href = '/logout';
+</script>
+{% endif %}
+{% endblock %}
